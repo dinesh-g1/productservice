@@ -1,11 +1,10 @@
 package com.dinesh.ms.productservice.services.Impl;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.dinesh.ms.productservice.entities.Product;
+import com.dinesh.ms.productservice.exceptions.ProductNotFoundException;
 import com.dinesh.ms.productservice.models.ProductRequestDto;
 import com.dinesh.ms.productservice.repositories.ProductRepository;
 import com.dinesh.ms.productservice.services.ProductService;
@@ -32,13 +31,11 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product getProduct(Long productId) throws RuntimeException {
-        Optional<Product> product = productRepository.findById(productId);
-        if (product.isPresent()) {
-            return product.get();
-        } else {
-            throw new RuntimeException("Product Not Found");
-        }
+    public Product getProduct(Long productId) {
+        Product product = productRepository.findById(productId)
+                            .orElseThrow(() -> 
+                            new ProductNotFoundException("Product Not Found", "PRODUCT_NOT_FOUND"));
+        return product;
     }
     
 }

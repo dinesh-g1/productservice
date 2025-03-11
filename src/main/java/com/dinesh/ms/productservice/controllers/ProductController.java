@@ -33,20 +33,17 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProducEntity(@PathVariable("id") Long productId) {
-        try {
-            Product product = productService.getProduct(productId);
+        
+        Product product = productService.getProduct(productId);
 
-            ProductResponse productResponse = ProductResponse.builder()
-                                                .id(product.getId())
-                                                .name(product.getName())
-                                                .price(product.getPrice())
-                                                .quantity(product.getQuantity())
-                                                .build();
-            return new ResponseEntity<>(productResponse, HttpStatus.OK);
-        } catch(RuntimeException e ) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
+        ProductResponse productResponse = ProductResponse.builder()
+                                            .id(product.getId())
+                                            .name(product.getName())
+                                            .price(product.getPrice())
+                                            .quantity(product.getQuantity())
+                                            .build();
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
+        
     }
     
 }
